@@ -29,7 +29,7 @@ app.get('/findnearbyfriends/:userId', authenticateJWT, async (req, res) => {
   if (!currentUser) {
     return res.status(404).json({ message: "User not found", response: false });
   }
-  const allUsers = await User.find({ _id: { $ne: req.userId } });  // Exclude current user
+  const allUsers = await User.find({ _id: { $ne: userId } });  // Exclude current user
   const matches = matchUsers(currentUser, allUsers);
   res.json({ matches, response: true });
 });
