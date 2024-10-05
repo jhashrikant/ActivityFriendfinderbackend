@@ -25,7 +25,7 @@ app.post("/Signup", Signup)
 app.post("/Login", Login)
 app.get('/findnearbyfriends/:userId', authenticateJWT, async (req, res) => {
   const userId = req.params.userId;
-  const currentUser = await User.findById(userId);  // Use userId from JWT
+  const currentUser = await User.findById(userId);  // Use userId from params
   if (!currentUser) {
     return res.status(404).json({ message: "User not found", response: false });
   }

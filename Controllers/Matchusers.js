@@ -26,7 +26,7 @@ function matchUsers(currentUser, allUsers, maxDistance = 20) {
       );
       console.log("distance", distance)
       console.log("Distance Calculated:", distance);
-      // Step 3: Check if the user is within the max distance
+      // Check if the user is within the max distance
       if (distance <= maxDistance) {
         console.log('pahochgya')
         // Add user to matches with distance and shared activities
