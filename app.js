@@ -5,15 +5,14 @@ const Signup = require('./Controllers/Signup')
 const cors = require('cors')
 const bodyParser = require('body-parser');
 const Login = require('./Controllers/Login')
-const authenticateJWT = require('./helpers/helpers')
+const {authenticateJWT ,memoize} = require('./helpers/helpers')
 const matchUsers = require('./Controllers/Matchusers')
 const User = require('./Models/UserModel')
-
-
+const memoizedfn = memoize(matchUsers)
 app.use(bodyParser.json());
 
 app.use(cors())
-const PORT = 3001
+const PORT = 3002
 connectToDb()//connection to db checking
 app.get('/', (req, res) => {
   res.send("hello")
@@ -30,7 +29,8 @@ app.get('/findnearbyfriends/:userId', authenticateJWT, async (req, res) => {
     return res.status(404).json({ message: "User not found", response: false });
   }
   const allUsers = await User.find({ _id: { $ne: userId } });  // Exclude current user
-  const matches = matchUsers(currentUser, allUsers);
+  const matches = memoizedfn(currentUser, allUsers)
+  
   res.json({ matches, response: true });
 });
 
